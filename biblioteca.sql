@@ -1,0 +1,777 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: Jul 18, 2018 at 05:27 PM
+-- Server version: 10.1.33-MariaDB
+-- PHP Version: 7.2.6
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `biblioteca`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ARRIENDO`
+--
+
+CREATE TABLE `ARRIENDO` (
+  `ARR_ID` int(11) NOT NULL,
+  `ARR_FECHA` date NOT NULL,
+  `ARR_FESTIMA` date NOT NULL,
+  `ARR_COSTO` decimal(10,0) NOT NULL,
+  `ARR_DEVOLUCION` date DEFAULT NULL,
+  `ARR_MULTA` decimal(10,0) DEFAULT NULL,
+  `CLI_PER_ID` int(11) NOT NULL,
+  `LIB_SERIE` int(11) NOT NULL,
+  `TRA_PER_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `AUTOR`
+--
+
+CREATE TABLE `AUTOR` (
+  `AUT_ID` int(11) NOT NULL,
+  `AUT_NOMBRE` varchar(20) NOT NULL,
+  `AUT_APELLIDOP` varchar(20) NOT NULL,
+  `AUT_APELLIDOM` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `AUTOR`
+--
+
+INSERT INTO `AUTOR` (`AUT_ID`, `AUT_NOMBRE`, `AUT_APELLIDOP`, `AUT_APELLIDOM`) VALUES
+(1, 'GABRIEL', 'GARCIA', 'MARQUEZ'),
+(2, 'MIGUEL', 'OTERO', 'SILVA'),
+(3, 'MARIO', 'VARGAS', 'LLOSA'),
+(4, 'MAX', 'BROOKS', ''),
+(5, 'JORGE', 'BARADIT', ''),
+(6, 'JOHN', 'GRISHAM', ''),
+(7, 'STEPHEN', 'KING', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `BOLETA`
+--
+
+CREATE TABLE `BOLETA` (
+  `BOL_ID` int(11) NOT NULL,
+  `BOL_FECHA` date NOT NULL,
+  `BOL_HORA` time NOT NULL,
+  `BOL_PRECION` decimal(10,0) NOT NULL,
+  `BOL_IVA` decimal(10,0) NOT NULL,
+  `BOL_PRECIOT` decimal(10,0) NOT NULL,
+  `TRA_PER_ID` int(11) NOT NULL,
+  `CLI_PER_ID` int(11) DEFAULT NULL,
+  `ARR_ID` int(11) DEFAULT NULL,
+  `MET_COD` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `CATEGORIA`
+--
+
+CREATE TABLE `CATEGORIA` (
+  `CAT_ID` int(11) NOT NULL,
+  `CATEGORIA` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `CATEGORIA`
+--
+
+INSERT INTO `CATEGORIA` (`CAT_ID`, `CATEGORIA`) VALUES
+(1, 'SUSPENSO'),
+(2, 'HUMOR'),
+(3, 'FILOSOFIA'),
+(4, 'APOCALIPSIS'),
+(5, 'CRIMEN');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `CLIENTE`
+--
+
+CREATE TABLE `CLIENTE` (
+  `PER_ID` int(11) NOT NULL,
+  `CLI_FECHA_NAC` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `COMPRA`
+--
+
+CREATE TABLE `COMPRA` (
+  `COM_ID` int(11) NOT NULL,
+  `FAC_ID` int(11) NOT NULL,
+  `LIB_ISBN` varchar(13) NOT NULL,
+  `COM_CANTIDAD` int(11) NOT NULL,
+  `COM_PRECIO` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `CORREOS`
+--
+
+CREATE TABLE `CORREOS` (
+  `COR_ID` int(11) NOT NULL,
+  `PER_ID` int(11) NOT NULL,
+  `CORREO` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `DIRECCIONES`
+--
+
+CREATE TABLE `DIRECCIONES` (
+  `DIR_ID` int(11) NOT NULL,
+  `PER_ID` int(11) NOT NULL,
+  `DIRECCION` varchar(80) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `DISTRIBUIDOR`
+--
+
+CREATE TABLE `DISTRIBUIDOR` (
+  `DIS_ID` int(11) NOT NULL,
+  `DIS_RUT` char(10) NOT NULL,
+  `DIS_NOMBRE` varchar(30) NOT NULL,
+  `DIS_ANOCON` year(4) NOT NULL,
+  `DIS_TELEFONO` char(9) NOT NULL,
+  `DIS_DIRECCION` varchar(80) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `DISTRIBUIDOR`
+--
+
+INSERT INTO `DISTRIBUIDOR` (`DIS_ID`, `DIS_RUT`, `DIS_NOMBRE`, `DIS_ANOCON`, `DIS_TELEFONO`, `DIS_DIRECCION`) VALUES
+(1, '561245319', 'CAPITAN BOOK LTDA', 2006, '256456123', 'CALLE MONEDA 147, OFIC. 14'),
+(2, '536142617', 'HERMANOS LECTURA LTDA', 2009, '212457896', 'CALLE LOS MANZANOS 25, LOCAL 3, SANTIAGO'),
+(3, '515649872', 'UNCLE OWL LTDA', 2010, '229545644', 'CALLE PARALELEPIPEDO 106, SANTIAGO'),
+(4, '253199180', 'JOSE2', 2003, '123456766', 'DIRECCION JOSE');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `EDITORIAL`
+--
+
+CREATE TABLE `EDITORIAL` (
+  `EDI_ID` int(11) NOT NULL,
+  `EDI_NOMBRE` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `EDITORIAL`
+--
+
+INSERT INTO `EDITORIAL` (`EDI_ID`, `EDI_NOMBRE`) VALUES
+(1, 'ARANZADI'),
+(2, 'PIRAMIDE'),
+(3, 'SINTESIS'),
+(4, 'ALMUZARA'),
+(5, 'SUDAMERICANA'),
+(6, 'DELL'),
+(7, 'DEBOLSILLO'),
+(8, 'SIRIO');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ESTADO`
+--
+
+CREATE TABLE `ESTADO` (
+  `EST_ID` int(11) NOT NULL,
+  `ESTADO` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ESTADO`
+--
+
+INSERT INTO `ESTADO` (`EST_ID`, `ESTADO`) VALUES
+(1, 'DISPONIBLE'),
+(2, 'ARRENDADO'),
+(3, 'NO DISPONIBLE');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `FACTURA`
+--
+
+CREATE TABLE `FACTURA` (
+  `FAC_ID` int(11) NOT NULL,
+  `FAC_FOLIO` varchar(15) NOT NULL,
+  `DIS_ID` int(11) NOT NULL,
+  `MET_COD` int(11) DEFAULT NULL,
+  `FAC_FECHA` date NOT NULL,
+  `FAC_HORA` time NOT NULL,
+  `FAC_PRECION` decimal(10,0) NOT NULL,
+  `FAC_IVA` decimal(10,0) NOT NULL,
+  `FAC_PRECIOT` decimal(10,0) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `IDIOMA`
+--
+
+CREATE TABLE `IDIOMA` (
+  `IDI_ID` int(11) NOT NULL,
+  `IDIOMA` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `IDIOMA`
+--
+
+INSERT INTO `IDIOMA` (`IDI_ID`, `IDIOMA`) VALUES
+(1, 'ESPAÑOL'),
+(2, 'INGLES'),
+(3, 'ALEMAN');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `LIBRO`
+--
+
+CREATE TABLE `LIBRO` (
+  `LIB_SERIE` int(11) NOT NULL,
+  `LIB_ISBN` varchar(13) NOT NULL,
+  `EST_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `LIBRO_AUTOR`
+--
+
+CREATE TABLE `LIBRO_AUTOR` (
+  `LIB_ISBN` varchar(13) NOT NULL,
+  `AUT_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `LIBRO_CATEGORIA`
+--
+
+CREATE TABLE `LIBRO_CATEGORIA` (
+  `LIB_ISBN` varchar(13) NOT NULL,
+  `CAT_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `LIBRO_IDIOMA`
+--
+
+CREATE TABLE `LIBRO_IDIOMA` (
+  `LIB_ISBN` varchar(13) NOT NULL,
+  `IDI_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `LIBRO_ISBN`
+--
+
+CREATE TABLE `LIBRO_ISBN` (
+  `LIB_ISBN` varchar(13) NOT NULL,
+  `LIB_TITULO` varchar(40) NOT NULL,
+  `LIB_NPAGINAS` int(11) NOT NULL,
+  `LIB_PRECIO` decimal(10,0) DEFAULT NULL,
+  `LIB_ANOPUBLI` int(11) DEFAULT NULL,
+  `EDI_ID` int(11) NOT NULL,
+  `LIB_PORTADA` blob
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `METODO_PAGO`
+--
+
+CREATE TABLE `METODO_PAGO` (
+  `MET_COD` int(11) NOT NULL,
+  `MET_DESC` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `METODO_PAGO`
+--
+
+INSERT INTO `METODO_PAGO` (`MET_COD`, `MET_DESC`) VALUES
+(1, 'EFECTIVO'),
+(2, 'CHEQUE'),
+(3, 'TRANSFERENCIA');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `PERSONA`
+--
+
+CREATE TABLE `PERSONA` (
+  `PER_ID` int(11) NOT NULL,
+  `PER_RUT` char(10) NOT NULL,
+  `PER_NOMBRE` varchar(20) NOT NULL,
+  `PER_APELLIDOP` varchar(20) NOT NULL,
+  `PER_APELLIDOM` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `TELEFONO`
+--
+
+CREATE TABLE `TELEFONO` (
+  `TEL_ID` int(11) NOT NULL,
+  `PER_ID` int(11) NOT NULL,
+  `TELEFONO` char(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `TRABAJADOR`
+--
+
+CREATE TABLE `TRABAJADOR` (
+  `PER_ID` int(11) NOT NULL,
+  `TRA_FECHA_CONT` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `VENTA`
+--
+
+CREATE TABLE `VENTA` (
+  `VEN_ID` int(11) NOT NULL,
+  `VEN_CANTIDAD` int(11) NOT NULL,
+  `BOL_ID` int(11) NOT NULL,
+  `LIB_ISBN` varchar(13) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `ARRIENDO`
+--
+ALTER TABLE `ARRIENDO`
+  ADD PRIMARY KEY (`ARR_ID`),
+  ADD KEY `FK_REFERENCE_12` (`LIB_SERIE`),
+  ADD KEY `FK_RELATIONSHIP_30` (`CLI_PER_ID`),
+  ADD KEY `FK_RELATIONSHIP_31` (`TRA_PER_ID`);
+
+--
+-- Indexes for table `AUTOR`
+--
+ALTER TABLE `AUTOR`
+  ADD PRIMARY KEY (`AUT_ID`);
+
+--
+-- Indexes for table `BOLETA`
+--
+ALTER TABLE `BOLETA`
+  ADD PRIMARY KEY (`BOL_ID`),
+  ADD KEY `FK_REFERENCE_26` (`MET_COD`),
+  ADD KEY `FK_REFERENCE_27` (`CLI_PER_ID`),
+  ADD KEY `FK_RELATIONSHIP_23` (`ARR_ID`),
+  ADD KEY `FK_RELATIONSHIP_32` (`TRA_PER_ID`);
+
+--
+-- Indexes for table `CATEGORIA`
+--
+ALTER TABLE `CATEGORIA`
+  ADD PRIMARY KEY (`CAT_ID`);
+
+--
+-- Indexes for table `CLIENTE`
+--
+ALTER TABLE `CLIENTE`
+  ADD PRIMARY KEY (`PER_ID`);
+
+--
+-- Indexes for table `COMPRA`
+--
+ALTER TABLE `COMPRA`
+  ADD PRIMARY KEY (`COM_ID`),
+  ADD KEY `FK_REFERENCE_32` (`FAC_ID`),
+  ADD KEY `FK_RELATIONSHIP_36` (`LIB_ISBN`);
+
+--
+-- Indexes for table `CORREOS`
+--
+ALTER TABLE `CORREOS`
+  ADD PRIMARY KEY (`COR_ID`),
+  ADD KEY `FK_RELATIONSHIP_26` (`PER_ID`);
+
+--
+-- Indexes for table `DIRECCIONES`
+--
+ALTER TABLE `DIRECCIONES`
+  ADD PRIMARY KEY (`DIR_ID`),
+  ADD KEY `FK_RELATIONSHIP_27` (`PER_ID`);
+
+--
+-- Indexes for table `DISTRIBUIDOR`
+--
+ALTER TABLE `DISTRIBUIDOR`
+  ADD PRIMARY KEY (`DIS_ID`);
+
+--
+-- Indexes for table `EDITORIAL`
+--
+ALTER TABLE `EDITORIAL`
+  ADD PRIMARY KEY (`EDI_ID`);
+
+--
+-- Indexes for table `ESTADO`
+--
+ALTER TABLE `ESTADO`
+  ADD PRIMARY KEY (`EST_ID`);
+
+--
+-- Indexes for table `FACTURA`
+--
+ALTER TABLE `FACTURA`
+  ADD PRIMARY KEY (`FAC_ID`),
+  ADD KEY `FK_REFERENCE_28` (`MET_COD`),
+  ADD KEY `FK_RELATIONSHIP_33` (`DIS_ID`);
+
+--
+-- Indexes for table `IDIOMA`
+--
+ALTER TABLE `IDIOMA`
+  ADD PRIMARY KEY (`IDI_ID`);
+
+--
+-- Indexes for table `LIBRO`
+--
+ALTER TABLE `LIBRO`
+  ADD PRIMARY KEY (`LIB_SERIE`),
+  ADD KEY `FK_RELATIONSHIP_25` (`EST_ID`),
+  ADD KEY `FK_RELATIONSHIP_28` (`LIB_ISBN`);
+
+--
+-- Indexes for table `LIBRO_AUTOR`
+--
+ALTER TABLE `LIBRO_AUTOR`
+  ADD KEY `FK_RELATIONSHIP_34` (`AUT_ID`),
+  ADD KEY `FK_RELATIONSHIP_35` (`LIB_ISBN`);
+
+--
+-- Indexes for table `LIBRO_CATEGORIA`
+--
+ALTER TABLE `LIBRO_CATEGORIA`
+  ADD KEY `FK_REFERENCE_16` (`LIB_ISBN`),
+  ADD KEY `FK_REFERENCE_17` (`CAT_ID`);
+
+--
+-- Indexes for table `LIBRO_IDIOMA`
+--
+ALTER TABLE `LIBRO_IDIOMA`
+  ADD KEY `FK_REFERENCE_18` (`LIB_ISBN`),
+  ADD KEY `FK_REFERENCE_33` (`IDI_ID`);
+
+--
+-- Indexes for table `LIBRO_ISBN`
+--
+ALTER TABLE `LIBRO_ISBN`
+  ADD PRIMARY KEY (`LIB_ISBN`),
+  ADD KEY `FK_REFERENCE_20` (`EDI_ID`);
+
+--
+-- Indexes for table `METODO_PAGO`
+--
+ALTER TABLE `METODO_PAGO`
+  ADD PRIMARY KEY (`MET_COD`);
+
+--
+-- Indexes for table `PERSONA`
+--
+ALTER TABLE `PERSONA`
+  ADD PRIMARY KEY (`PER_ID`);
+
+--
+-- Indexes for table `TELEFONO`
+--
+ALTER TABLE `TELEFONO`
+  ADD PRIMARY KEY (`TEL_ID`),
+  ADD KEY `FK_RELATIONSHIP_29` (`PER_ID`);
+
+--
+-- Indexes for table `TRABAJADOR`
+--
+ALTER TABLE `TRABAJADOR`
+  ADD PRIMARY KEY (`PER_ID`);
+
+--
+-- Indexes for table `VENTA`
+--
+ALTER TABLE `VENTA`
+  ADD PRIMARY KEY (`VEN_ID`),
+  ADD KEY `FK_RELATIONSHIP_22` (`BOL_ID`),
+  ADD KEY `FK_RELATIONSHIP_24` (`LIB_ISBN`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `ARRIENDO`
+--
+ALTER TABLE `ARRIENDO`
+  MODIFY `ARR_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `AUTOR`
+--
+ALTER TABLE `AUTOR`
+  MODIFY `AUT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `BOLETA`
+--
+ALTER TABLE `BOLETA`
+  MODIFY `BOL_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `CATEGORIA`
+--
+ALTER TABLE `CATEGORIA`
+  MODIFY `CAT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `COMPRA`
+--
+ALTER TABLE `COMPRA`
+  MODIFY `COM_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `CORREOS`
+--
+ALTER TABLE `CORREOS`
+  MODIFY `COR_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `DIRECCIONES`
+--
+ALTER TABLE `DIRECCIONES`
+  MODIFY `DIR_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `DISTRIBUIDOR`
+--
+ALTER TABLE `DISTRIBUIDOR`
+  MODIFY `DIS_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `EDITORIAL`
+--
+ALTER TABLE `EDITORIAL`
+  MODIFY `EDI_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `ESTADO`
+--
+ALTER TABLE `ESTADO`
+  MODIFY `EST_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `FACTURA`
+--
+ALTER TABLE `FACTURA`
+  MODIFY `FAC_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `IDIOMA`
+--
+ALTER TABLE `IDIOMA`
+  MODIFY `IDI_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `LIBRO`
+--
+ALTER TABLE `LIBRO`
+  MODIFY `LIB_SERIE` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `METODO_PAGO`
+--
+ALTER TABLE `METODO_PAGO`
+  MODIFY `MET_COD` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `PERSONA`
+--
+ALTER TABLE `PERSONA`
+  MODIFY `PER_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `TELEFONO`
+--
+ALTER TABLE `TELEFONO`
+  MODIFY `TEL_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `VENTA`
+--
+ALTER TABLE `VENTA`
+  MODIFY `VEN_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `ARRIENDO`
+--
+ALTER TABLE `ARRIENDO`
+  ADD CONSTRAINT `FK_REFERENCE_12` FOREIGN KEY (`LIB_SERIE`) REFERENCES `LIBRO` (`LIB_SERIE`),
+  ADD CONSTRAINT `FK_RELATIONSHIP_30` FOREIGN KEY (`CLI_PER_ID`) REFERENCES `CLIENTE` (`PER_ID`),
+  ADD CONSTRAINT `FK_RELATIONSHIP_31` FOREIGN KEY (`TRA_PER_ID`) REFERENCES `TRABAJADOR` (`PER_ID`);
+
+--
+-- Constraints for table `BOLETA`
+--
+ALTER TABLE `BOLETA`
+  ADD CONSTRAINT `FK_REFERENCE_26` FOREIGN KEY (`MET_COD`) REFERENCES `METODO_PAGO` (`MET_COD`),
+  ADD CONSTRAINT `FK_REFERENCE_27` FOREIGN KEY (`CLI_PER_ID`) REFERENCES `CLIENTE` (`PER_ID`),
+  ADD CONSTRAINT `FK_RELATIONSHIP_23` FOREIGN KEY (`ARR_ID`) REFERENCES `ARRIENDO` (`ARR_ID`),
+  ADD CONSTRAINT `FK_RELATIONSHIP_32` FOREIGN KEY (`TRA_PER_ID`) REFERENCES `TRABAJADOR` (`PER_ID`);
+
+--
+-- Constraints for table `CLIENTE`
+--
+ALTER TABLE `CLIENTE`
+  ADD CONSTRAINT `FK_INHERITANCE_1` FOREIGN KEY (`PER_ID`) REFERENCES `PERSONA` (`PER_ID`);
+
+--
+-- Constraints for table `COMPRA`
+--
+ALTER TABLE `COMPRA`
+  ADD CONSTRAINT `FK_REFERENCE_32` FOREIGN KEY (`FAC_ID`) REFERENCES `FACTURA` (`FAC_ID`),
+  ADD CONSTRAINT `FK_RELATIONSHIP_36` FOREIGN KEY (`LIB_ISBN`) REFERENCES `LIBRO_ISBN` (`LIB_ISBN`);
+
+--
+-- Constraints for table `CORREOS`
+--
+ALTER TABLE `CORREOS`
+  ADD CONSTRAINT `FK_RELATIONSHIP_26` FOREIGN KEY (`PER_ID`) REFERENCES `PERSONA` (`PER_ID`);
+
+--
+-- Constraints for table `DIRECCIONES`
+--
+ALTER TABLE `DIRECCIONES`
+  ADD CONSTRAINT `FK_RELATIONSHIP_27` FOREIGN KEY (`PER_ID`) REFERENCES `PERSONA` (`PER_ID`);
+
+--
+-- Constraints for table `FACTURA`
+--
+ALTER TABLE `FACTURA`
+  ADD CONSTRAINT `FK_REFERENCE_28` FOREIGN KEY (`MET_COD`) REFERENCES `METODO_PAGO` (`MET_COD`),
+  ADD CONSTRAINT `FK_RELATIONSHIP_33` FOREIGN KEY (`DIS_ID`) REFERENCES `DISTRIBUIDOR` (`DIS_ID`);
+
+--
+-- Constraints for table `LIBRO`
+--
+ALTER TABLE `LIBRO`
+  ADD CONSTRAINT `FK_RELATIONSHIP_25` FOREIGN KEY (`EST_ID`) REFERENCES `ESTADO` (`EST_ID`),
+  ADD CONSTRAINT `FK_RELATIONSHIP_28` FOREIGN KEY (`LIB_ISBN`) REFERENCES `LIBRO_ISBN` (`LIB_ISBN`);
+
+--
+-- Constraints for table `LIBRO_AUTOR`
+--
+ALTER TABLE `LIBRO_AUTOR`
+  ADD CONSTRAINT `FK_RELATIONSHIP_34` FOREIGN KEY (`AUT_ID`) REFERENCES `AUTOR` (`AUT_ID`),
+  ADD CONSTRAINT `FK_RELATIONSHIP_35` FOREIGN KEY (`LIB_ISBN`) REFERENCES `LIBRO_ISBN` (`LIB_ISBN`);
+
+--
+-- Constraints for table `LIBRO_CATEGORIA`
+--
+ALTER TABLE `LIBRO_CATEGORIA`
+  ADD CONSTRAINT `FK_REFERENCE_16` FOREIGN KEY (`LIB_ISBN`) REFERENCES `LIBRO_ISBN` (`LIB_ISBN`),
+  ADD CONSTRAINT `FK_REFERENCE_17` FOREIGN KEY (`CAT_ID`) REFERENCES `CATEGORIA` (`CAT_ID`);
+
+--
+-- Constraints for table `LIBRO_IDIOMA`
+--
+ALTER TABLE `LIBRO_IDIOMA`
+  ADD CONSTRAINT `FK_REFERENCE_18` FOREIGN KEY (`LIB_ISBN`) REFERENCES `LIBRO_ISBN` (`LIB_ISBN`),
+  ADD CONSTRAINT `FK_REFERENCE_33` FOREIGN KEY (`IDI_ID`) REFERENCES `IDIOMA` (`IDI_ID`);
+
+--
+-- Constraints for table `LIBRO_ISBN`
+--
+ALTER TABLE `LIBRO_ISBN`
+  ADD CONSTRAINT `FK_REFERENCE_20` FOREIGN KEY (`EDI_ID`) REFERENCES `EDITORIAL` (`EDI_ID`);
+
+--
+-- Constraints for table `TELEFONO`
+--
+ALTER TABLE `TELEFONO`
+  ADD CONSTRAINT `FK_RELATIONSHIP_29` FOREIGN KEY (`PER_ID`) REFERENCES `PERSONA` (`PER_ID`);
+
+--
+-- Constraints for table `TRABAJADOR`
+--
+ALTER TABLE `TRABAJADOR`
+  ADD CONSTRAINT `FK_INHERITANCE_2` FOREIGN KEY (`PER_ID`) REFERENCES `PERSONA` (`PER_ID`);
+
+--
+-- Constraints for table `VENTA`
+--
+ALTER TABLE `VENTA`
+  ADD CONSTRAINT `FK_RELATIONSHIP_22` FOREIGN KEY (`BOL_ID`) REFERENCES `BOLETA` (`BOL_ID`),
+  ADD CONSTRAINT `FK_RELATIONSHIP_24` FOREIGN KEY (`LIB_ISBN`) REFERENCES `LIBRO_ISBN` (`LIB_ISBN`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
